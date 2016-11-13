@@ -60,7 +60,122 @@ function register_my_widget_theme()  {
 add_action( 'init', 'register_my_widget_theme' );
 
 
-// Ajouter Custom Infos
+/**
+*  Système Slider Custom Post
+**/
+
+function slider_custom_post_type (){
+
+	$labels = array(
+		'name' => 'Slider',
+		'singular_name' => 'Slider',
+		'add_new' => 'Ajouter Slide',
+		'all_items' => 'Les Sliders',
+		'add_new_item' => 'Ajouter un Slide',
+		'edit_item' => 'Modifier Slide',
+		'new_item' => 'Nouveau Slider',
+		'view_item' => 'Voir Slide',
+		'search_item' => 'Recherche Slide',
+		'not_found' => 'Aucun Slide',
+		'not_found_in_trash' => 'No items found in trash',
+		'parent_item_colon' => 'Parent Item'
+	);
+	$args = array(
+		'labels' => $labels,
+		'public' => true,
+		'has_archive' => true,
+		'publicly_queryable' => true,
+		'query_var' => true,
+		'rewrite' => true,
+		'capability_type' => 'post',
+		'hierarchical' => false,
+    'menu_icon' => 'dashicons-slides',
+    'media_buttons' => false,
+    'public' => false,
+    'publicly_queriable' => true,
+    'show_ui' => true,
+    'exclude_from_search' => true,
+    'show_in_nav_menus' => false,
+    'has_archive' => false,
+    'rewrite' => false,
+		'supports' => array(
+      'thumbnail',
+			'revisions',
+		),
+		'menu_position' => 9,
+		'exclude_from_search' => false
+	);
+	register_post_type('slider',$args);
+}
+add_action('init','slider_custom_post_type');
+
+// Meta Box Slider Admin
+
+add_action('add_meta_boxes','slider_metabox');
+function slider_metabox(){
+  add_meta_box('configuration-slider', 'Configuration', 'slider_data', 'slider', 'normal');
+}
+
+function slider_data($post){
+  $url = get_post_meta($post->ID,'_slider_link',true);
+  $texarea = get_post_meta($post->ID,'_slider_text',true);
+  $text_sub = get_post_meta($post->ID,'_slider_text_sub',true);
+  echo '<h4>1) Titre du Slider</h4>';
+  echo '<input id="textareaslider" style="width:45%;" type="text" maxlength="80" placeholder="Ajouter un titre" name="slider_text" value="'.$texarea.'" />';
+  echo '<h4>2) Texte du Slider</h4>';
+  echo '<input id="textslider" style="width:45%;" type="text" maxlength="80" placeholder="Ajouter du texte" name="slider_text_sub" value="'.$text_sub.'" />';
+  echo '<h4>3) Lien du button</h4>';
+  echo '<input id="linkslider" style="width:25%;" type="url" placeholder="Ajouter un lien" name="slider_link" value="'.$url.'" /></br>';
+  echo '<div style="color: #8a6d3b;background-color: #fcf8e3;border-color: #faebcc;padding: 15px;margin-top:10px;margin-bottom: 10px;border: 1px solid transparent;border-radius: 4px;">';
+  echo 'Laisser vide si vous ne souhaitez pas ajouter de lien. Autrement, veuillez ajouter un lien valide. <strong>Exemple : </strong>'.get_site_url().'/actualites/';
+  echo '</div>';
+}
+
+add_action('save_post','slider_save_metabox');
+function slider_save_metabox($post_id){
+  if(isset($_POST['slider_link']) && isset($_POST['slider_text']) && isset($_POST['slider_text_sub'])) {
+      update_post_meta($post_id, '_slider_link', esc_url($_POST['slider_link']));
+      update_post_meta($post_id, '_slider_text', $_POST['slider_text']);
+      update_post_meta($post_id, '_slider_text_sub', $_POST['slider_text_sub']);
+  }
+}
+// Image Size Slider
+
+add_image_size('slider', 1600, 460, true);
+
+
+// Personnalisation Admin Events
+
+function slider_columns( $columns ){
+	$newColumns = array();
+	$newColumns['titre'] = 'Titre';
+  $newColumns['desc'] = 'Description';
+	$newColumns['date'] = 'Date';
+	return $newColumns;
+}
+
+function slider_custom_column( $column, $post_id ){
+
+	switch( $column ){
+
+		case 'titre' :
+      $titre = get_post_meta( $post_id, '_slider_text', true );
+			echo $titre;
+			break;
+
+		case 'desc' :
+			$text_sub = get_post_meta( $post_id, '_slider_text_sub', true );
+			echo $text_sub;
+			break;
+	}
+
+}
+
+add_filter( 'manage_slider_posts_columns', 'slider_columns' );
+add_action( 'manage_slider_posts_custom_column', 'slider_custom_column', 10, 2 );
+
+
+// Ajouter Custom Post Infos
 
 function awesome_custom_post_type (){
 
@@ -249,8 +364,6 @@ if(isset($_POST['register_save_date']))
 }
 
 
-
-
 // Custom Meta Box - Event Date
 
 function custom_events_meta_box() {
@@ -298,21 +411,6 @@ function events_save_data( $post_id ) {
 add_action( 'add_meta_boxes', 'custom_events_meta_box' );
 add_action( 'save_post', 'events_save_data' );
 
-
-// Custom Meta Box Informations
-
-function custom_bloc(){
-    echo '<div style="color: #8a6d3b;background-color: #fcf8e3;border-color: #faebcc;padding: 15px;margin-top:10px;margin-bottom: 10px;border: 1px solid transparent;border-radius: 4px;">';
-    echo '<strong>Warning!</strong> Better check yourself, re <a href="#" class="alert-link">not looking too good</a>.';
-    echo '</div>';
-}
-
-function add_custom_bloc_info()
-{
-    add_meta_box("bloc_info", "Informations", "custom_bloc", "events", "normal", "high", 1);
-}
-
-add_action("add_meta_boxes", "add_custom_bloc_info");
 
 
 // Supprimer Media Button Custom Post Type - Infos & Events

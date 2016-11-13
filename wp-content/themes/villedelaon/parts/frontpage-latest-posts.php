@@ -18,44 +18,40 @@ $vega_wp_frontpage_latest_posts_n = vega_wp_get_option('vega_wp_frontpage_latest
 $vega_wp_frontpage_latest_posts_heading = vega_wp_get_option('vega_wp_frontpage_latest_posts_heading');
 $vega_wp_frontpage_latest_posts_section_id = vega_wp_get_option('vega_wp_frontpage_latest_posts_section_id');
 ?>
+<?php
+$args = array( 'post_type' => 'slider', 'posts_per_page' => 3 );
+$loop = new WP_Query( $args );
+?>
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
-  <!-- Indicators -->
 
   <ol class="carousel-indicators">
-    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="0"></li>
     <li data-target="#myCarousel" data-slide-to="1"></li>
     <li data-target="#myCarousel" data-slide-to="2"></li>
   </ol>
   <div class="carousel-inner">
-    <div class="item active"> <img src="<?php echo get_stylesheet_directory_uri().'/assets/img/slider1.jpg'; ?>" style="width:100%" alt="La ville de Laon - Actualités">
+  <?php  while ( $loop->have_posts() ) : $loop->the_post(); ?>
+  <?php
+    $slider_titre = get_post_meta( get_the_ID(), '_slider_text', true );
+    $slider_text = get_post_meta( get_the_ID(), '_slider_text_sub', true );
+    $slider_link = get_post_meta( get_the_ID(), '_slider_link', true );
+  ?>
+    <div class="item"> <img src="<?php echo the_post_thumbnail_url('slider'); ?>" style="width:100%" alt="La ville de Laon - Actualités">
       <div class="container">
         <div class="carousel-caption">
-          <h1>La Ville de Laon</h1>
-          <p>Découvrez les actualités du mois</p>
-          <p><a class="btn-slider" href="<?php echo get_site_url(); ?>/actualites/" role="button">En voir plus</a></p>
+          <h1><?= $slider_titre ?></h1>
+          <p><?= $slider_text ?></p>
+          <?php if($slider_link != '') : ?>
+            <p><a class="btn-slider" href="<?= $slider_link ?>" role="button">En voir plus</a></p>
+          <?php endif; ?>
         </div>
       </div>
     </div>
-    <div class="item"> <img src="<?php echo get_stylesheet_directory_uri().'/assets/img/slider1.jpg'; ?>" style="width:100%" data-src="" alt="Second    slide">
-      <div class="container">
-        <div class="carousel-caption">
-          <h1>La Ville de Laon</h1>
-          <p>Découvrez les actualités du mois</p>
-          <p><a class="btn-slider" href="<?php echo get_site_url(); ?>/activites-du-mois/" role="button">En voir plus</a></p>
-        </div>
-      </div>
-    </div>
-    <div class="item"> <img src="<?php echo get_stylesheet_directory_uri().'/assets/img/slider1.jpg'; ?>" style="width:100%" data-src="" alt="Third slide">
-      <div class="container">
-        <div class="carousel-caption">
-          <h1>Slide 3</h1>
-          <p>Donec sit amet mi imperdiet mauris viverra accumsan ut at libero.</p>
-          <p><a class="btn-slider" href="<?php echo get_site_url(); ?>/infos/" role="button">Browse gallery</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <?php endwhile; ?>
+
+
+</div>
   <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a> </div>
 
 
@@ -105,5 +101,15 @@ $vega_wp_frontpage_latest_posts_section_id = vega_wp_get_option('vega_wp_frontpa
 
     </div>
 </div>
+
+<script>
+jQuery(document).ready(function($){
+  $("#myCarousel .carousel-indicators li:first").addClass("active");
+  $("#myCarousel .carousel-inner .item:first").addClass("active");
+   $("#myCarousel").carousel({
+  interval: 4000
+  })
+});
+</script>
 
 <?php } ?>
