@@ -479,6 +479,36 @@ div#wpcf7-f130-p116-o1 {
     padding: 0px 20px;
 }
 
+a.btn-close {
+    background: #d6d6d6;
+    color: #616060;
+    width: 82px;
+    border: 1px solid #b3b1b1;
+    pointer-events: none;
+}
+
+a.btn-open {
+  background: #004990;
+  color: #fff;
+  border-color: #03305d;
+}
+
+a.btn-open:hover {
+  background: #1364b3;
+  color: #fff;
+}
+
+@media all and (min-width: 996px){
+  th.dateth {
+    width: 150px;
+  }
+
+  th.titleth {
+    width: 350px;
+  }
+}
+
+
 /* Infos */
 
 .infos-page {

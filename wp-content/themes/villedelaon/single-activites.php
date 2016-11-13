@@ -25,8 +25,8 @@ Template Name: Single Activites
   <table class="table table-condensed table-striped table-responsive">
     <thead>
       <tr>
-        <th>Titre</th>
-        <th>Date</th>
+        <th class="titleth">Titre</th>
+        <th class="dateth">Date</th>
         <th>Description</th>
         <th>Inscription</th>
       </tr>
@@ -40,9 +40,17 @@ Template Name: Single Activites
                 <?php $date_events = get_post_meta( get_the_ID(), '_event_value_key', true ); ?>
                 <td><?php echo $date_events; ?></td>
                 <td><?php the_content(); ?></td>
-                <td><a class="btn btn-primary register link2" data-toggle="modal" data-target="#myModal" data-date="<?php echo $date_events; ?>" data-title="<?php the_title(); ?>" onClick="getData(this)" ;="">Inscription</a></td>
+                <?php $register_events = get_post_meta( get_the_ID(), '_register_key', true ); ?>
+                <?php if($register_events == 'Oui') : ?>
+                  <td>
+                    <a class="btn btn-open register link2" data-toggle="modal" data-target="#myModal" data-date="<?php echo $date_events; ?>" data-title="<?php the_title(); ?>" onClick="getData(this)" ;="">S'inscrire</a>
+                  </td>
+                <?php else : ?>
+                  <td>
+                    <a class="btn btn-close">Fermer</a>
+                  </td>
+                <?php endif; ?>
               </tr>
-
     <?php endwhile; ?>
 
           </tbody>

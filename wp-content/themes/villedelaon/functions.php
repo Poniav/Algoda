@@ -222,8 +222,36 @@ add_filter( 'manage_events_posts_columns', 'events_columns' );
 add_action( 'manage_events_posts_custom_column', 'events_custom_column', 10, 2 );
 
 
+// Custom Meta Box - Inscription On / Off
 
-// Custom Meta Box
+
+add_action('add_meta_boxes','register_metabox');
+function register_metabox(){
+  add_meta_box('events_register', 'Configuration', 'register_save_date', 'events', 'side');
+}
+
+function register_save_date($post){
+  $open = get_post_meta($post->ID,'_register_key',true);
+  echo '<label for="dispo_meta">Ouverture des inscriptions :</label></br></br>';
+  echo '<select name="register_save_date">';
+  echo '<option ' . selected( 'dispo', $open, false ) . ' value="Oui">Oui</option>';
+  echo '<option ' . selected( 'encours', $open, false ) . ' value="Non">Non</option>';
+  echo '</select>';
+  echo '<div style="color: #8a6d3b;background-color: #fcf8e3;border-color: #faebcc;padding: 15px;margin-top:10px;margin-bottom: 10px;border: 1px solid transparent;border-radius: 4px;">';
+  echo '<strong>Attention ! </strong> Si vous cochez oui, les inscriptions seront ouvertes au public.</a>';
+  echo '</div>';
+}
+
+add_action('save_post','save_metabox_register');
+function save_metabox_register($post_id){
+if(isset($_POST['register_save_date']))
+  update_post_meta($post_id, '_register_key', $_POST['register_save_date']);
+}
+
+
+
+
+// Custom Meta Box - Event Date
 
 function custom_events_meta_box() {
 	add_meta_box( 'events-infos', 'Evenement', 'events_callback', 'events', 'normal', 'high' );
@@ -237,7 +265,7 @@ function events_callback( $post ) {
 	echo '<input type="text" id="events_date_field" name="events_date_field" value="' . esc_attr( $value ) . '" size="25" />';
   echo '<div style="color: #31708f;background-color: #d9edf7;border-color: #bce8f1;padding: 15px;margin-top:10px;margin-bottom: 10px;border: 1px solid transparent;border-radius: 4px;">';
   echo 'Veuillez respecter le format JJ/MM/AAAA pour rentrer votre adresse</div>';
- 
+
 }
 function events_save_data( $post_id ) {
 
