@@ -37,7 +37,7 @@ $loop = new WP_Query( $args );
     $slider_text = get_post_meta( get_the_ID(), '_slider_text_sub', true );
     $slider_link = get_post_meta( get_the_ID(), '_slider_link', true );
   ?>
-    <div class="item"> <img src="<?php echo the_post_thumbnail_url('slider'); ?>" style="width:100%" alt="La ville de Laon - Actualités">
+    <div class="item"> <img src="<?php echo the_post_thumbnail_url('slider'); ?>" class="img-responsive" style="width:100%" alt="La ville de Laon - Actualités">
       <div class="container">
         <div class="carousel-caption">
           <h1><?= $slider_titre ?></h1>

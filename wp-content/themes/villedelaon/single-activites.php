@@ -20,7 +20,7 @@ Template Name: Single Activites
     $loop = new WP_Query( $args );
 
 ?>
-<section class="events-page">
+<section class="events-page responsive-table-line">
 
   <table class="table table-condensed table-striped table-responsive">
     <thead>
@@ -36,17 +36,17 @@ Template Name: Single Activites
     while ( $loop->have_posts() ) : $loop->the_post(); ?>
 
               <tr>
-                <td><?php the_title();?></td>
+                <td data-title="Titre"><?php the_title();?></td>
                 <?php $date_events = get_post_meta( get_the_ID(), '_event_value_key', true ); ?>
-                <td><?php echo $date_events; ?></td>
-                <td><?php the_content(); ?></td>
+                <td data-title="Date"><?php echo $date_events; ?></td>
+                <td data-title="Description"><?php the_content(); ?></td>
                 <?php $register_events = get_post_meta( get_the_ID(), '_register_key', true ); ?>
                 <?php if($register_events == 'Oui') : ?>
-                  <td>
+                  <td data-title="Inscription">
                     <a class="btn btn-open register link2" data-toggle="modal" data-target="#myModal" data-date="<?php echo $date_events; ?>" data-title="<?php the_title(); ?>" onClick="getData(this)" ;="">S'inscrire</a>
                   </td>
                 <?php else : ?>
-                  <td>
+                  <td data-title="Inscription">
                     <a class="btn btn-close">Fermer</a>
                   </td>
                 <?php endif; ?>

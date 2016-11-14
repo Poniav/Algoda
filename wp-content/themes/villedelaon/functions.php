@@ -31,6 +31,17 @@ function wpc_show_admin_bar() {
 }
 add_filter('show_admin_bar' , 'wpc_show_admin_bar');
 
+/**
+* Sécurité
+**/
+
+// Supprimer l'éditeur de fichier depuis wordpress
+
+define('DISALLOW_FILE_EDIT',true);
+
+// Supprimer les erreurs
+
+add_filter('login_errors',create_function('$a', "return null;"));
 
 // Supprimer version WP
 
@@ -40,7 +51,9 @@ function wpbeginner_remove_version() {
 add_filter('the_generator', 'wpbeginner_remove_version');
 
 
-// Sidebar Contact
+/**
+* Widget Contact Sidebar
+**/
 
 
 function register_my_widget_theme()  {
