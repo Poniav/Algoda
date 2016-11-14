@@ -930,6 +930,22 @@ input#textareaslider {
     width: 45%;
 }
 
+/* Form Confirmation */
+
+
+div#myModalConfirm i.fa.fa-check-circle {
+    font-size: 10em!important;
+    color: #3eca04!important;
+}
+
+div#myModalConfirm .modal-body {
+  text-align: center!important;
+  background: #002549;
+}
+
+div#myModalConfirm .modal-body p {
+  font-size: 18px;
+}
 
 /* footer */
 
