@@ -743,6 +743,10 @@ input[type="radio"] {
     font-weight: 400;
 }
 
+input[name=date-320] {
+    width: 100%;
+}
+
 /** Page Actualités **/
 
 .blog-feed .entry {
@@ -831,10 +835,20 @@ span.dateentry {
 @media all and (max-width: 420px) {
   span.author {
     width: 100%;
+    text-align: center;
+    display: block;
   }
   span.dateentry {
-    width: 100%;
     margin-left: 0px;
+    width: 100%;
+    text-align: center;
+    display: block;
+  }
+  a.btn-feed {
+    float: none;
+    width: 100%;
+    display: block;
+    text-align: center;
   }
 }
 
