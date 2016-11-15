@@ -21,15 +21,18 @@ $vega_wp_frontpage_latest_posts_section_id = vega_wp_get_option('vega_wp_frontpa
 <?php
 $args = array( 'post_type' => 'slider', 'posts_per_page' => 3 );
 $loop = new WP_Query( $args );
+if ($loop->have_posts()) :
 ?>
-
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
 
-  <ol class="carousel-indicators">
-    <li data-target="#myCarousel" data-slide-to="0"></li>
-    <li data-target="#myCarousel" data-slide-to="1"></li>
-    <li data-target="#myCarousel" data-slide-to="2"></li>
-  </ol>
+  <?php  $count_posts = wp_count_posts('slider')->publish; ?>
+  <?php  if ( $count_posts > "1" ) :  ?>
+    <ol class="carousel-indicators">
+      <?php for ($i = 0; $i < $count_posts; $i++) : ?>
+          <li data-target="#myCarousel" data-slide-to="<?php echo $i; ?>"></li>
+      <?php endfor; ?>
+    </ol>
+  <?php endif; ?>
   <div class="carousel-inner">
   <?php  while ( $loop->have_posts() ) : $loop->the_post(); ?>
   <?php
@@ -52,8 +55,11 @@ $loop = new WP_Query( $args );
 
 
 </div>
-  <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a> </div>
-
+  <?php if($count_posts > "1") : ?>
+  <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+  <?php endif; ?>
+</div>
+<?php endif; ?>
 
 <div class="section frontpage-recent-posts <?php echo esc_attr($vega_wp_curr_bg) ?>" id="<?php echo esc_attr($vega_wp_frontpage_latest_posts_section_id) ?>">
 
