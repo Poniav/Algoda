@@ -38,11 +38,8 @@ global $key;
     <!-- /Post Title -->
 
     <div class="recent-entry-content">
-        <?php $content = get_the_content();
-              $content = strip_tags($content);?>
-        <?php echo substr($content, 0, 100); ?>...
+        <?php ext_content(0, 85); ?>
     </div>
-
 
     <?php if($vega_wp_blog_feed_buttons == 'Y') { ?>
     <!-- Post Buttons -->

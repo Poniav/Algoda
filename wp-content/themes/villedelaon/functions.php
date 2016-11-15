@@ -436,3 +436,19 @@ function remove_media_button() {
 
 }
 add_action('admin_head','remove_media_button');
+
+
+// Extrait home Text Last Post
+
+function ext_content ($a, $b){
+      $content = get_the_content();
+      $content = strip_tags($content);
+      if (strlen($content) > $b) {
+          $content = wordwrap($content, $b);
+          $i = strpos($content, "\n");
+          if($i) {
+            $content = substr($content, $a, $i);
+            echo $content.'...';
+          }
+      }
+}
