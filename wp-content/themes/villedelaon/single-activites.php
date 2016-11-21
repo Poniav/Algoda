@@ -16,7 +16,7 @@ Template Name: Single Activites
             <div class="col-md-12">
 <?php
 
-    $args = array( 'post_type' => 'events', 'posts_per_page' => 7 );
+    $args = array( 'post_type' => 'events', 'posts_per_page' => 10 );
     $loop = new WP_Query( $args );
 
 ?>
@@ -25,10 +25,10 @@ Template Name: Single Activites
   <table class="table table-condensed table-striped table-responsive">
     <thead>
       <tr>
-        <th class="titleth">Titre</th>
-        <th class="dateth">Date</th>
-        <th>Description</th>
-        <th>Inscription</th>
+        <th data-title="Titre" class="titleth">Titre</th>
+        <th data-title="Date" class="dateth">Date</th>
+        <th data-title="Description">Description</th>
+        <th data-title="Inscription">Inscription</th>
       </tr>
     </thead>
     <tbody>
@@ -47,7 +47,7 @@ Template Name: Single Activites
                   </td>
                 <?php else : ?>
                   <td data-title="Inscription">
-                    <a class="btn btn-close">Fermer</a>
+                    <a class="btn btn-close">Close</a>
                   </td>
                 <?php endif; ?>
               </tr>

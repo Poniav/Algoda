@@ -444,6 +444,18 @@ a.btn-slider:hover {
     }
 }
 
+@media all and (max-width: 410px) {
+    div#myCarousel img.img-responsive {
+      height: 200px;
+    }
+}
+
+@media all and (min-width: 410px) and (max-width: 610px) {
+    div#myCarousel img.img-responsive {
+      height: 200px;
+    }
+}
+
 /* Activités du Mois */
 
 .events-page {
